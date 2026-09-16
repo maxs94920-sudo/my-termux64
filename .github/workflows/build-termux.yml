@@ -81,80 +81,100 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
+
       - name: Set --add
         if: "${{ github.event.inputs.add != '' }}"
         run: echo "ADDITIONAL_PACKAGES=--add ${{ github.event.inputs.add }}" >> $GITHUB_ENV
+
       - name: Set --name
         if: "${{ github.event.inputs.name != '' }}"
         run: echo "TERMUX_APP__PACKAGE_NAME=--name ${{ github.event.inputs.name }}" >> $GITHUB_ENV
+
       - name: Set --type
         if: "${{ github.event.inputs.type != '' }}"
         run: echo "TERMUX_APP_TYPE=--type ${{ github.event.inputs.type }}" >> $GITHUB_ENV
+
       - name: Set --architectures
         if: "${{ github.event.inputs.architectures != '' }}"
         run: echo "BOOTSTRAP_ARCHITECTURES=--architectures ${{ github.event.inputs.architectures }}" >> $GITHUB_ENV
+
       - name: Set --disable-bootstrap-second-stage
         if: "${{ github.event.inputs.bootstrap-second-stage == 'false' }}"
         run: echo "DISABLE_BOOTSTRAP_SECOND_STAGE=--disable-bootstrap-second-stage" >> $GITHUB_ENV
+
       - name: Set --enable-ssh-server
         if: "${{ github.event.inputs.ssh-server == 'true' }}"
         run: echo "ENABLE_SSH_SERVER=--enable-ssh-server" >> $GITHUB_ENV
+
       - name: Set --disable-bootstrap
         if: "${{ github.event.inputs.bootstrap == 'false' }}"
         run: echo "DISABLE_BOOTSTRAP=--disable-bootstrap" >> $GITHUB_ENV
+
       - name: Set --disable-terminal
         if: "${{ github.event.inputs.terminal == 'false' }}"
         run: echo "DISABLE_TERMINAL=--disable-terminal" >> $GITHUB_ENV
+
       - name: Set --disable-tasker
         if: "${{ github.event.inputs.tasker == 'false' }}"
         run: echo "DISABLE_TASKER=--disable-tasker" >> $GITHUB_ENV
+
       - name: Set --disable-float
         if: "${{ github.event.inputs.float == 'false' }}"
         run: echo "DISABLE_FLOAT=--disable-float" >> $GITHUB_ENV
+
       - name: Set --disable-widget
         if: "${{ github.event.inputs.widget == 'false' }}"
         run: echo "DISABLE_WIDGET=--disable-widget" >> $GITHUB_ENV
+
       - name: Set --disable-api
         if: "${{ github.event.inputs.api == 'false' }}"
         run: echo "DISABLE_API=--disable-api" >> $GITHUB_ENV
+
       - name: Set --disable-boot
         if: "${{ github.event.inputs.boot == 'false' }}"
         run: echo "DISABLE_BOOT=--disable-boot" >> $GITHUB_ENV
+
       - name: Set --disable-styling
         if: "${{ github.event.inputs.styling == 'false' }}"
         run: echo "DISABLE_STYLING=--disable-styling" >> $GITHUB_ENV
+
       - name: Set --disable-gui
         if: "${{ github.event.inputs.gui == 'false' }}"
         run: echo "DISABLE_GUI=--disable-gui" >> $GITHUB_ENV
+
       - name: Set --disable-x11
         if: "${{ github.event.inputs.x11 == 'false' }}"
         run: echo "DISABLE_X11=--disable-x11" >> $GITHUB_ENV
+
       - name: Set --plugin
         if: "${{ github.event.inputs.plugin != '' }}"
         run: echo "PLUGIN=--plugin ${{ github.event.inputs.plugin }}" >> $GITHUB_ENV
+
       - name: Build Termux
         run: |
           ./build-termux.sh \
-                $ADDITIONAL_PACKAGES \
-                $TERMUX_APP__PACKAGE_NAME \
-                $TERMUX_APP_TYPE \
-                $BOOTSTRAP_ARCHITECTURES \
-                $DISABLE_BOOTSTRAP_SECOND_STAGE \
-                $ENABLE_SSH_SERVER \
-                $DISABLE_BOOTSTRAP \
-                $DISABLE_TERMINAL \
-                $DISABLE_TASKER \
-                $DISABLE_FLOAT \
-                $DISABLE_WIDGET \
-                $DISABLE_API \
-                $DISABLE_BOOT \
-                $DISABLE_STYLING \
-                $DISABLE_GUI \
-                $DISABLE_X11 \
-                $PLUGIN
+            $ADDITIONAL_PACKAGES \
+            $TERMUX_APP__PACKAGE_NAME \
+            $TERMUX_APP_TYPE \
+            $BOOTSTRAP_ARCHITECTURES \
+            $DISABLE_BOOTSTRAP_SECOND_STAGE \
+            $ENABLE_SSH_SERVER \
+            $DISABLE_BOOTSTRAP \
+            $DISABLE_TERMINAL \
+            $DISABLE_TASKER \
+            $DISABLE_FLOAT \
+            $DISABLE_WIDGET \
+            $DISABLE_API \
+            $DISABLE_BOOT \
+            $DISABLE_STYLING \
+            $DISABLE_GUI \
+            $DISABLE_X11 \
+            $PLUGIN
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.6.0
         with:
